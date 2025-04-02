@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb"; // Ensure correct path
 import Payer from "../../../models/Payer"; // Ensure correct path
 
-export async function PUT(req: Request, context: { params: { id: string } }) {
+export async function PUT(req: Request, {params}: {params: Promise<{ id: string }> }) {
   await dbConnect();
 
   try {
-    const { id } = context.params;
+    const id  =params;
 
     console.log("Updating payer with ID:", id); // Log the ID
 
@@ -23,11 +23,11 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
   }
 }
 
-export async function DELETE(req: Request, context: { params: { id: string } }) {
+export async function DELETE(req: Request, {params}: {params: Promise<{ id: string }>}) {
   await dbConnect();
 
   try {
-    const { id } = context.params;
+    const  id  = params;
 
     console.log("Deleting payer with ID:", id); // Log the ID
 
