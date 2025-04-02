@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb"; // Ensure correct path to your database connection
-import Payer from "../../../models/Payer"; // Ensure correct path to your Mongoose model
+import dbConnect from "@/lib/mongodb"; // Ensure correct path
+import Payer from "../../../models/Payer"; // Ensure correct path
 
-export async function PUT(req: Request, {params}: {params: Promise<{ id: string }> }) {
-  await dbConnect(); 
+export async function PUT(req: Request, context: { params: { id: string } }) {
+  await dbConnect();
 
   try {
-    const id = params; 
+    const { id } = context.params;
+
+    console.log("Updating payer with ID:", id); // Log the ID
 
     const payer = await Payer.findByIdAndUpdate(id, { paid: true }, { new: true });
 
@@ -16,15 +18,18 @@ export async function PUT(req: Request, {params}: {params: Promise<{ id: string 
 
     return NextResponse.json(payer, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Error updating payer" }, { status: 500 });
+    console.error("PUT Error:", error); // Log detailed error
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 
-export async function DELETE(req: Request, {params}: {params: Promise<{ id: string }>}) {
+export async function DELETE(req: Request, context: { params: { id: string } }) {
   await dbConnect();
 
   try {
-    const  id  = params; 
+    const { id } = context.params;
+
+    console.log("Deleting payer with ID:", id); // Log the ID
 
     const payer = await Payer.findByIdAndDelete(id);
 
@@ -34,6 +39,7 @@ export async function DELETE(req: Request, {params}: {params: Promise<{ id: stri
 
     return NextResponse.json({ message: "Payer deleted successfully" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Error deleting payer" }, { status: 500 });
+    console.error("DELETE Error:", error); // Log detailed error
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
