@@ -27,7 +27,7 @@ export default function PublicView() {
       <h1 className="text-2xl font-bold mb-4">Public Payment Tracker</h1>
       {payers.map((payer) => (
         <Card key={payer._id} className="p-2 mb-2">
-          <span className={payer.paid ? "line-through text-gray-500" : ""}>{payer.name} - ${payer.amount}</span>
+          <span className={payer.paid ? "line-through text-gray-500" : ""}>{payer.name} - ₹{payer.amount}</span>
         </Card>
       ))}
     </div>
